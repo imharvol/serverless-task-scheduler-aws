@@ -1,8 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "lambda-symlink": "ln -s /opt/nodejs/node_modules node_modules",
-    "bundle": "zip --symlinks -r function.zip node_modules ddbUtils.js executeTask.js package.json taskRunners errors.js index.js sqsUtils.js",
+    "lambda-symlink": "ln -f -s /opt/nodejs/node_modules node_modules",
+    "bundle": "npm run clean && zip --symlinks -q -r function.zip node_modules ddbUtils.js executeTask.js package.json taskRunners errors.js index.js sqsUtils.js",
     "clean": "rm function.zip"
   },
   "dependencies": {

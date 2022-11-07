@@ -2,7 +2,7 @@ import { getDdbTask, updateDdbTaskParams } from './ddbUtils.js'
 import { CompletedTaskInQueue, UnknownTaskType } from './errors.js'
 
 // Import task runners
-import defaultTaskRunner from './taskRunners/default.js'
+import taskRunners from './taskRunners/index.js'
 
 const executeTask = async (taskId) => {
   let completed,
@@ -14,13 +14,12 @@ const executeTask = async (taskId) => {
   if (process.env.DEBUG) console.debug('DDB Task: ' + JSON.stringify(ddbTask))
   if (ddbTask.completed) throw new CompletedTaskInQueue(ddbTask)
 
-  switch (ddbTask.type) {
-    case 'default':
-      ;({ completed, newTargetTimestamp, newParams } = await defaultTaskRunner(ddbTask))
-      break
-    default:
-      throw new UnknownTaskType(ddbTask.type)
-  }
+  // Check that the task type is supported
+  if (taskRunners[ddbTask.type] == null || typeof taskRunners[ddbTask.type] !== 'function')
+    throw new UnknownTaskType(ddbTask.type)
+
+  // Execute the task
+  ;({ completed, newTargetTimestamp, newParams } = await taskRunners[ddbTask.type](ddbTask))
 
   // Update task in DDB
   await updateDdbTaskParams(ddbTask.id, completed, newParams)

@@ -1,4 +1,4 @@
-const deleteSelected = async (ddbTask) => {
+const exampleTask = async (ddbTask) => {
   console.log(ddbTask)
 
   return {
@@ -8,4 +8,4 @@ const deleteSelected = async (ddbTask) => {
   }
 }
 
-export default deleteSelected
+export default exampleTask

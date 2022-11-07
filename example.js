@@ -22,7 +22,7 @@ const ddbCommand = new PutItemCommand({
   Item: marshall({
     id: taskId,
     completed: false,
-    type: 'default',
+    type: 'exampleTask',
     params: {}
   })
 })
