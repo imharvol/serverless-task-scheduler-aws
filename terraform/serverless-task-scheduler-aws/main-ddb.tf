@@ -11,6 +11,6 @@ resource "aws_dynamodb_table" "tasks_table" {
 
   tags = {
     Name = "${var.prepend}-task-scheduler-tasks-table"
-    Project = local.project_name
+    Project = var.project_name
   }
 }

@@ -8,6 +8,6 @@ resource "aws_sqs_queue" "task_queue" {
 
   tags = {
     Name = "${var.prepend}-task-scheduler-queue"
-    Project = local.project_name
+    Project = var.project_name
   }
 }

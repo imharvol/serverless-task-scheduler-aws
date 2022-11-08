@@ -74,7 +74,7 @@ resource "aws_iam_role" "task_function_role" {
 
   tags = {
     Name    = "${var.prepend}-task-scheduler-function"
-    Project = local.project_name
+    Project = var.project_name
   }
 }
 
@@ -112,7 +112,7 @@ resource "aws_lambda_function" "tasks_function" {
 
   tags = {
     Name    = "${var.prepend}-task-scheduler-function"
-    Project = local.project_name
+    Project = var.project_name
   }
 }
 
@@ -121,7 +121,7 @@ resource "aws_cloudwatch_log_group" "tasks_function_log_group" {
 
   tags = {
     Name    = "${var.prepend}-task-scheduler-function"
-    Project = local.project_name
+    Project = var.project_name
   }
 }
 
@@ -144,7 +144,7 @@ resource "aws_iam_policy" "tasks_function_logging" {
 
   tags = {
     Name    = "${var.prepend}-task-scheduler-function"
-    Project = local.project_name
+    Project = var.project_name
   }
 }
 

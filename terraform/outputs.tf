@@ -1,9 +1,9 @@
 output "tasks_table_name" {
   description = "DDB Tasks Table Nable"
-  value       = aws_dynamodb_table.tasks_table.id
+  value       = module.serverless_task_scheduler_aws.tasks_table_name
 }
 
 output "tasks_queue_url" {
   description = "SQS Tasks Queue Url"
-  value       = aws_sqs_queue.task_queue.url
+  value       = module.serverless_task_scheduler_aws.tasks_queue_url
 }

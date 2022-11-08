@@ -11,6 +11,9 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-locals {
-  project_name = "${var.prepend}-task-scheduler"
+module "serverless_task_scheduler_aws" {
+  source = "./serverless-task-scheduler-aws"
+
+  prepend      = var.prepend
+  project_name = var.project_name
 }
