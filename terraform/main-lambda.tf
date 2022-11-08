@@ -71,6 +71,11 @@ resource "aws_iam_role" "task_function_role" {
       ]
     })
   }
+
+  tags = {
+    Name    = "${var.prepend}-task-scheduler-function"
+    Project = local.project_name
+  }
 }
 
 resource "aws_lambda_layer_version" "tasks_function_layer" {
@@ -106,13 +111,18 @@ resource "aws_lambda_function" "tasks_function" {
   }
 
   tags = {
-    Name = "${var.prepend}-task-scheduler-function"
+    Name    = "${var.prepend}-task-scheduler-function"
     Project = local.project_name
   }
 }
 
 resource "aws_cloudwatch_log_group" "tasks_function_log_group" {
   name = "/aws/lambda/${aws_lambda_function.tasks_function.function_name}"
+
+  tags = {
+    Name    = "${var.prepend}-task-scheduler-function"
+    Project = local.project_name
+  }
 }
 
 resource "aws_iam_policy" "tasks_function_logging" {
@@ -131,6 +141,11 @@ resource "aws_iam_policy" "tasks_function_logging" {
       }
     ]
   })
+
+  tags = {
+    Name    = "${var.prepend}-task-scheduler-function"
+    Project = local.project_name
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
@@ -141,4 +156,6 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 resource "aws_lambda_event_source_mapping" "task_queue" {
   event_source_arn = aws_sqs_queue.task_queue.arn
   function_name    = aws_lambda_function.tasks_function.arn
+
+  function_response_types = ["ReportBatchItemFailures"]
 }
